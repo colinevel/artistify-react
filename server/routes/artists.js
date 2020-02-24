@@ -55,7 +55,17 @@ router.get("/filtered-artists", (req, res, next) => {
 });
 
 router.post("/artists", (req, res) => {
-  res.status(200).json({ msg: "@todo" })
+  const newArtist = req.body;
+  console.log(req.body);
+  artistModel
+  .create(newArtist)
+  .then(() => {
+    res.status(200).json(newArtist)
+    console.log("artist was inserted", newArtist);
+  })
+  .catch(err => {
+    res.status(500).json(err);
+  })
 });
 
 router.patch("/artists/:id", async (req, res, next) => {

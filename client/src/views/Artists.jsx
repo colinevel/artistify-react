@@ -7,6 +7,7 @@ import LabPreview from "../components/LabPreview";
 // styles
 import "../styles/card.css";
 
+
 export default class Artists extends Component {
   state = {
     artists: []
