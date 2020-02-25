@@ -47,7 +47,15 @@ router.get("/artists", async (req, res, next) => {
 
 
 router.get("/artists/:id", (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  artistModel.findById(req.params.id)
+  .then(({ name, style, description, isBand }) => {
+    console.log("this is the edited artist", { name, style, description, isBand });
+    res.status(200).json({ name, style, description, isBand })
+    })
+    .catch(err => {
+    console.error(err);
+    res.status(500).json(err);
+  })
 });
 
 router.get("/filtered-artists", (req, res, next) => {
@@ -55,21 +63,34 @@ router.get("/filtered-artists", (req, res, next) => {
 });
 
 router.post("/artists", (req, res) => {
-  const newArtist = req.body;
-  console.log(req.body);
+  const {name, style, description, isBand} = req.body;
+  console.log({name, style, description, isBand});
   artistModel
-  .create(newArtist)
+  .create({name, style, description, isBand})
   .then(() => {
-    res.status(200).json(newArtist)
-    console.log("artist was inserted", newArtist);
+    res.status(200).json({name, style, description, isBand})
   })
   .catch(err => {
+    console.error(err);
     res.status(500).json(err);
   })
 });
 
 router.patch("/artists/:id", async (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  const { name, style, description, isBand } = req.body;
+  console.log("this is the reqbody", req.body);
+  const updatedArtist = {
+    name, style, description, isBand
+  }
+  artistModel
+    .findByIdAndUpdate(req.params.id, updatedArtist, { new: true })
+    .then((artist) => {
+    console.log(artist);
+    res.status(200).json(artist)
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
 });
 
 router.delete("/artists/:id", (req, res, next) => {

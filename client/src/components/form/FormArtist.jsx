@@ -10,6 +10,7 @@ import "./../../styles/form.css";
 
 class FormArtist extends Component {
   state = {
+    _id: "",
     name: "",
     // styles n'est pas envoyé dans le backend
     styles: [], 
@@ -19,30 +20,46 @@ class FormArtist extends Component {
   };
 
   componentDidMount() {
+    if (this.props._id ) {
+      APIHandler.get(`/artists/${this.props._id}`)
+        .then(apiRes => {
+          this.setState(apiRes.data);
+          console.log("this is the edit result", apiRes.data);
+        })
+        .catch(apiErr => console.error(apiErr));
+      }
+    
     APIHandler.get("/styles")
       .then(apiRes => {
+        console.log("coucou")
         this.setState({ styles: apiRes.data.styles });
         console.log("this result", apiRes);
       })
       .catch(apiErr => console.error(apiErr));
   }
 
+
   handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value }, console.log(this.state));
   };
 
+
   handleSubmit = e => {
-    // const fd = new FormData();
-    // fd.append("name", this.state.name);
-    // fd.append("style", this.state.style);
-    // fd.append("description", this.state.description);
-    // fd.append("isBand", this.state.isBand);
     e.preventDefault();
+    if (this.props._id) {
+      APIHandler.patch(`/artists/${this.props._id}`, this.state)
+      .then(apiRes => {
+        console.log("artist was inserted", apiRes);
+      })
+      .catch(apiErr => console.error(apiErr));
+  }
+    else {
     APIHandler.post("/artists", this.state)
       .then(apiRes => {
         console.log("artist was inserted", apiRes);
       })
       .catch(apiErr => console.error(apiErr));
+    }
   };
 
   render() {
