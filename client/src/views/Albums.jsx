@@ -41,8 +41,6 @@ export default function Albums() {
         user's favorites.
       </p>
 
-      <LabPreview name="albums" />
-
       <hr />
       <h1 className="title">All albums</h1>
       <List
@@ -51,6 +49,8 @@ export default function Albums() {
         cssList="cards"
         cssItem="card album"
       />
+
+    <LabPreview name="albums" />  
     </React.Fragment>
   );
 }
