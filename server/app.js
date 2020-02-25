@@ -7,7 +7,7 @@ const express = require("express");
 const session = require("express-session"); //sessions make data persist between http calls
 const passport = require("passport"); // auth library (needs sessions)
 const cors = require("cors");
-const _DEVMODE = false;
+const _DEVMODE = true;
 
 // ------------------------------------------
 // SERVER CONFIG

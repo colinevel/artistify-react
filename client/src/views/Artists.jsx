@@ -45,7 +45,7 @@ export default class Artists extends Component {
         
         <hr />
 
-        <LabPreview name="artists"/>
+        
 
         <h1 className="title">All artists</h1>
         <List
@@ -54,6 +54,8 @@ export default class Artists extends Component {
           cssList="cards"
           cssItem="card artist"
         />
+        
+        <LabPreview name="artists"/>
       </React.Fragment>
     );
   }

@@ -47,7 +47,8 @@ router.get("/artists", async (req, res, next) => {
 
 
 router.get("/artists/:id", (req, res, next) => {
-  artistModel.findById(req.params.id)
+  artistModel
+  .findById(req.params.id)
   .then(({ name, style, description, isBand }) => {
     console.log("this is the edited artist", { name, style, description, isBand });
     res.status(200).json({ name, style, description, isBand })

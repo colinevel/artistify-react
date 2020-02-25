@@ -16,7 +16,7 @@ class FormArtist extends Component {
     styles: [], 
     style: "",
     description: "",
-    isBand: false
+    isBand: ""
   };
 
   componentDidMount() {
@@ -31,7 +31,6 @@ class FormArtist extends Component {
     
     APIHandler.get("/styles")
       .then(apiRes => {
-        console.log("coucou")
         this.setState({ styles: apiRes.data.styles });
         console.log("this result", apiRes);
       })
@@ -40,7 +39,7 @@ class FormArtist extends Component {
 
 
   handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value }, console.log(this.state));
+    this.setState({ [e.target.name]: e.target.value })
   };
 
 
@@ -50,6 +49,7 @@ class FormArtist extends Component {
       APIHandler.patch(`/artists/${this.props._id}`, this.state)
       .then(apiRes => {
         console.log("artist was inserted", apiRes);
+        this.props.history.push("/admin/artists")
       })
       .catch(apiErr => console.error(apiErr));
   }
@@ -57,6 +57,7 @@ class FormArtist extends Component {
     APIHandler.post("/artists", this.state)
       .then(apiRes => {
         console.log("artist was inserted", apiRes);
+        this.props.history.push("/admin/artists")
       })
       .catch(apiErr => console.error(apiErr));
     }
@@ -91,7 +92,7 @@ class FormArtist extends Component {
             id="description"
             type="textarea"
             onChange={this.handleChange}
-            defaultValue={this.description}
+            defaultValue={this.state.description}
           />
 
           <label className="label" htmlFor="style">
@@ -101,12 +102,13 @@ class FormArtist extends Component {
             className="select"
             id="style"
             name="style"
-            defaultValue="Select Style"
+            value = {this.state.style}
             onChange={this.handleChange}
           >
             <option disabled>Select Style</option>
             {this.state.styles.map((style, i) => (
-              <option key={i} value={style._id}>
+              <option
+                value={style._id} key={i}>
                 {style.name}
               </option>
             ))}
@@ -127,6 +129,7 @@ class FormArtist extends Component {
               onChange={this.handleChange}
               id="isBand"
               type="radio"
+              checked={this.state.isBand}
             />
 
             <label className="label" htmlFor="isBand" name="isBand">
@@ -139,7 +142,7 @@ class FormArtist extends Component {
               onChange={this.handleChange}
               id="isBand"
               type="radio"
-              checked
+              checked = {this.state.isBand}
             />
           </div>
 
